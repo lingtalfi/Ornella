@@ -9,7 +9,7 @@ Ornella Tag Notation
 What is it?
 ---------------
 
-Ornella tag notation is used to replace tags by a treated value.
+Ornella tag notation is used to replace **tags** by a treated value.
 For instance, the {fileName} tag could be replaced by a file name variable,
 and the {fileName:upper} tag could be replaced by the file name variable uppercase.
 
@@ -39,9 +39,9 @@ The final value is the actual value which replaces the tag.
 
 We could represent the ornella tag notation like this:
 
-- ornellaTagNotation: <{> <identifier> (<:> <functionDeclaration>)*  <}>
+- ornellaTagNotation: \<{> \<identifier> (\<:> \<functionDeclaration>)*  \<}>
 - identifier:  [a-Z0-9_]
-- functionDeclaration: <functionName> <functionParamsString>?
+- functionDeclaration: \<functionName> \<functionParamsString>?
 - functionName:  [a-Z0-9_]
 - functionParamsString: string, depends on the function. Generally, it starts with an underscore to delineate 
                             the function name from the beginning of the function parameters.
@@ -59,8 +59,8 @@ The following chars have a special meaning:
 - closing curly bracket (})
 
 Therefore, they must be escaped with the backslash should they appear in the functionDeclaration expression.
-Some functions use more than one parameter and use the underscore(_) as a separator, therefore for those functions, 
-unless otherwise specified, the underscore(_) should also be escaped when used as a parameter value. 
+Some functions use more than one parameter and use the underscore(\_) as a separator, therefore for those functions, 
+unless otherwise specified, the underscore(\_) should also be escaped when used as a parameter value. 
  
 
 
@@ -126,11 +126,11 @@ Imagine we have an input value of:
 
 ##### Single field
 
-To return a single field, we simply write its index.
 
-To return hello, we use the notation {var:cut_\__0}
-To return world, we use the notation {var:cut_\__1}
-And so on.
+    To return a single field, we simply write its index.
+    To return hello, we use the notation {var:cut_\__0}
+    To return world, we use the notation {var:cut_\__1}
+    And so on.
     
 
 ##### Ranges
@@ -152,18 +152,18 @@ The abstract notation is:
     - boundary2: positive int, with boundary2 always greater than boundary1
     
     
-
-To return helloworld, we use the notation {var:cut_\__0-1}
-To return hello-world, we use the notation {var:cut_\__0-1_-}
-To return hello_world, we use the notation {var:cut_\__0-1__}
-To return hello__world, we use the notation {var:cut_\__0-1___}
-To return hello$world$is, we use the notation {var:cut_\__0-2_$}
+    
+    To return helloworld, we use the notation {var:cut_\__0-1}
+    To return hello-world, we use the notation {var:cut_\__0-1_-}
+    To return hello_world, we use the notation {var:cut_\__0-1__}
+    To return hello__world, we use the notation {var:cut_\__0-1___}
+    To return hello$world$is, we use the notation {var:cut_\__0-2_$}
 
 We can also specify multiple ranges.
 
-To return helloisitok, we use the notation {var:cut_\__0;2-4}
-To return hello=is=it=ok, we use the notation {var:cut_\__0;2-4_=}
-Alternately, to return hello=is=it=ok, we can also use the notation {var:cut_\__0;2+_=}
+    To return helloisitok, we use the notation {var:cut_\__0;2-4}
+    To return hello=is=it=ok, we use the notation {var:cut_\__0;2-4_=}
+    Alternately, to return hello=is=it=ok, we can also use the notation {var:cut_\__0;2+_=}
 
 And so on.
     
@@ -181,22 +181,22 @@ Abstract notation:
 - length: int
     
     
-The returned value is the substring defined by <start> and <length>.
+The returned value is the substring defined by \<start> and \<length>.
     
-<start> marks the beginning of the substring.
+\<start> marks the beginning of the substring.
 If it's a positive number (including zero), it indicates the index position of the beginning from the start.
 If it's a negative number, it indicates the index position of the beginning, but starting from the end.
 
 
-Once the beginning of the substring has been set, <length> is used to define the end of the substring.
-If <length> is positive, then <length> is added to the (positive version of the) <start> index, and the result 
+Once the beginning of the substring has been set, \<length> is used to define the end of the substring.
+If \<length> is positive, then \<length> is added to the (positive version of the) \<start> index, and the result 
 is the actual ending position (index) of the substring.
-If <length> is negative, then the end position is the very last position of the value, moved to the left by 
-<length> (multibytes) chars.
-If <length> is omitted, then the end position is the very last position of the value.
+If \<length> is negative, then the end position is the very last position of the value, moved to the left by 
+\<length> (multibytes) chars.
+If \<length> is omitted, then the end position is the very last position of the value.
 
 
-If you know php, then basically the substr function or ornella's tag notation is the equivalent of php's native mb_substr function.
+If you know php, then basically the substr function or ornella's tag notation is the equivalent of php's native [mb_substr function](http://php.net/manual/en/function.mb-substr.php).
 
 
  
@@ -209,11 +209,28 @@ Imagine we have an input value of:
     hello_world_is_it_ok.txt
     
   
-To return hell, we use {var:substr_0_4}    
-To return ello, we use {var:substr_1_4}    
-To return .txt, we use {var:substr_-4}    
-To return .t, we use {var:substr_-4_2}    
-To return ello_world_is_it_ok, we use {var:substr_1_-4}    
+    To return hell, we use {var:substr_0_4}    
+    To return ello, we use {var:substr_1_4}    
+    To return .txt, we use {var:substr_-4}    
+    To return .t, we use {var:substr_-4_2}    
+    To return ello_world_is_it_ok, we use {var:substr_1_-4}    
+    
+    
+    
+
+Combining functions
+---------------------
+    
+As said earlier, it is possible to chain functions, using the colon separator.
+    
+Example:
+    
+    
+    {var:substr_0_4:upper:safe_-}  
+    
+In this example, the value is first passed to the substr function (with params 0 and 4), <br>
+then the result is passed to the upper function,<br>
+then the new result is passed to the safe function with param dash(-).
     
     
     
