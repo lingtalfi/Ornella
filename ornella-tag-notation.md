@@ -110,7 +110,7 @@ There are different notations.
 The underscore is used as the main separator.
 
 To restrict the returned value to a specific field, we simply write its index.
-Pieces are indexed numerically, starting at 0.
+Pieces are indexed numerically, starting at 1.
     
 The abstract notation is:
     
@@ -128,8 +128,8 @@ Imagine we have an input value of:
 
 
     To return a single field, we simply write its index.
-    To return hello, we use the notation {var:cut_\__0}
-    To return world, we use the notation {var:cut_\__1}
+    To return hello, we use the notation {var:cut_\__1}
+    To return world, we use the notation {var:cut_\__2}
     And so on.
     
 
@@ -153,17 +153,17 @@ The abstract notation is:
     
     
     
-    To return helloworld, we use the notation {var:cut_\__0-1}
-    To return hello-world, we use the notation {var:cut_\__0-1_-}
-    To return hello_world, we use the notation {var:cut_\__0-1__}
-    To return hello__world, we use the notation {var:cut_\__0-1___}
-    To return hello$world$is, we use the notation {var:cut_\__0-2_$}
+    To return helloworld, we use the notation {var:cut_\__1-2}
+    To return hello-world, we use the notation {var:cut_\__1-2_-}
+    To return hello_world, we use the notation {var:cut_\__1-2__}
+    To return hello__world, we use the notation {var:cut_\__1-2___}
+    To return hello$world$is, we use the notation {var:cut_\__1-3_$}
 
 We can also specify multiple ranges.
 
-    To return helloisitok, we use the notation {var:cut_\__0;2-4}
-    To return hello=is=it=ok, we use the notation {var:cut_\__0;2-4_=}
-    Alternately, to return hello=is=it=ok, we can also use the notation {var:cut_\__0;2+_=}
+    To return helloisitok, we use the notation {var:cut_\__1;3-5}
+    To return hello=is=it=ok, we use the notation {var:cut_\__1;3-5_=}
+    Alternately, to return hello=is=it=ok, we can also use the notation {var:cut_\__1;3+_=}
 
 And so on.
     
