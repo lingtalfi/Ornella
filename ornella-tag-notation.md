@@ -97,7 +97,7 @@ The notation is illustrated by the following example:
     {var:safe_<replaceChar>}        # abstract
     {var:safe_-}                    # replace all non safe chars with dash
     {var:safe__}                    # replace all non safe chars with underscore
-    {var:safe___}                    # replace all non safe chars with two underscores
+    {var:safe___}                   # replace all non safe chars with two underscores
 
 
 
