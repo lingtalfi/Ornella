@@ -172,53 +172,59 @@ class OrnellaTagNotationUtil
             case 'cut':
                 $params = $this->getFuncParams($funcParamString);
                 if (null !== ($cutChar = array_shift($params))) {
-                    if (null !== ($fieldSpec = array_shift($params))) {
 
-                        if (null === ($sep = array_shift($params))) {
-                            $sep = '';
-                        }
-                        $fields = explode($cutChar, $value);
-                        $numFields = count($fields);
+                    if ('' !== $cutChar) {
+                        if (null !== ($fieldSpec = array_shift($params))) {
 
-                        $renderedFields = [];
-                        $rangeSpecs = explode(';', $fieldSpec);
-                        foreach ($rangeSpecs as $rangeSpec) {
-                            $boundaries = explode('-', $rangeSpec, 2);
-                            if (2 === count($boundaries)) {
-                                $begin = (int)$boundaries[0];
-                                $end = (int)$boundaries[1];
-                                if ($begin < $end) {
-                                    for ($i = $begin; $i <= $end; $i++) {
-                                        $offset = $i;
+                            if (null === ($sep = array_shift($params))) {
+                                $sep = '';
+                            }
+                            $fields = explode($cutChar, $value);
+                            $numFields = count($fields);
+
+                            $renderedFields = [];
+                            $rangeSpecs = explode(';', $fieldSpec);
+                            foreach ($rangeSpecs as $rangeSpec) {
+                                $boundaries = explode('-', $rangeSpec, 2);
+                                if (2 === count($boundaries)) {
+                                    $begin = (int)$boundaries[0];
+                                    $end = (int)$boundaries[1];
+                                    if ($begin < $end) {
+                                        for ($i = $begin; $i <= $end; $i++) {
+                                            $offset = $i;
+                                            $this->adjustOffset($offset, $numFields);
+                                            $renderedFields[] = $fields[$offset];
+                                        }
+                                    }
+                                    else {
+                                        $this->error("cut start boundary must be numerically less than its end boundary (you gave $begin and $end)");
+                                    }
+                                }
+                                else {
+                                    if ('+' === substr($rangeSpec, -1)) {
+                                        $offset = (int)substr($rangeSpec, 0, -1);
+                                        $this->adjustOffset($offset, $numFields);
+                                        foreach (array_slice($fields, $offset) as $field) {
+                                            $renderedFields[] = $field;
+                                        }
+                                    }
+                                    else {
+                                        $offset = (int)$rangeSpec;
                                         $this->adjustOffset($offset, $numFields);
                                         $renderedFields[] = $fields[$offset];
                                     }
                                 }
-                                else {
-                                    $this->error("cut start boundary must be numerically less than its end boundary (you gave $begin and $end)");
-                                }
                             }
-                            else {
-                                if ('+' === substr($rangeSpec, -1)) {
-                                    $offset = (int)substr($rangeSpec, 0, -1);
-                                    $this->adjustOffset($offset, $numFields);
-                                    foreach (array_slice($fields, $offset) as $field) {
-                                        $renderedFields[] = $field;
-                                    }
-                                }
-                                else {
-                                    $offset = (int)$rangeSpec;
-                                    $this->adjustOffset($offset, $numFields);
-                                    $renderedFields[] = $fields[$offset];
-                                }
-                            }
+
+
+                            $value = implode($sep, $renderedFields);
                         }
-
-
-                        $value = implode($sep, $renderedFields);
+                        else {
+                            $this->error("Invalid cut syntax: fieldSpec parameter not defined in $value");
+                        }
                     }
                     else {
-                        $this->error("Invalid cut syntax: fieldSpec parameter not defined in $value");
+                        $this->error("Invalid cut syntax: cutChar must not be empty in $value");
                     }
                 }
                 else {
