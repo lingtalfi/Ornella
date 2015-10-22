@@ -234,7 +234,10 @@ then the new result is passed to the safe function with param dash(-).
     
     
     
+Implementations
+------------------
     
+A php implementation is provided in this planet: [Ornella Tag Notation php implementation by LingTalfi](https://github.com/lingtalfi/ornella/blob/master/OrnellaTagNotationUtil.php)    
 
 
 
