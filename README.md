@@ -20,7 +20,7 @@ Install
 ==========
 Using the [uni](https://github.com/lingtalfi/universe-naive-importer) command.
 ```bash
-uni import Ornella
+uni import Ling/Ornella
 ```
 
 
@@ -44,7 +44,7 @@ the [portable autoloader technique](https://github.com/lingtalfi/TheScientist/bl
 <?php
 
 
-use Ornella\OrnellaTagNotationUtil;
+use Ling\Ornella\OrnellaTagNotationUtil;
 
 require_once "bigbang.php";
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ornella;
+namespace Ling\Ornella;
 
 /*
  * LingTalfi 2015-10-21
